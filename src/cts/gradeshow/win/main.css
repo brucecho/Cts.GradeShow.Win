@@ -7,4 +7,7 @@ and open the template in the editor.
     Created on : 2018/1/6, 下午 05:12:55
     Author     : bruce
 */
--fx-background-size:
+.ImageView
+{
+    -fx-background-size:contain;
+}

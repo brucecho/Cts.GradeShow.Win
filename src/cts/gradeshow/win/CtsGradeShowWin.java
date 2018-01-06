@@ -34,32 +34,15 @@ public class CtsGradeShowWin extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        /*
+        
         Parent root = FXMLLoader.load(getClass().getResource("ControlForm.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
-        */
-        stage.setTitle("Title");
         
-        final Circle circ = new Circle(40, 40, 30);
-        final Group root = new Group(circ);
         
-        final Scene scene = new Scene(root, 800, 400, Color.BEIGE);
-
-        final Text text1 = new Text(25, 25, "java2s.com");
-        text1.setFill(Color.DARKBLUE);
-        text1.setFont(Font.font(java.awt.Font.SERIF, 25));
-        final Reflection reflection = new Reflection();
-        reflection.setFraction(1.0);
-        text1.setEffect(reflection);
-        
-        root.getChildren().add(text1);
-        
-        stage.setScene(scene);
-        stage.show();
     }
 
     /**
