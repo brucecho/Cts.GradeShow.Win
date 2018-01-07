@@ -7,7 +7,9 @@ and open the template in the editor.
     Created on : 2018/1/6, 下午 05:12:55
     Author     : bruce
 */
-.ImageView
+#rootV
 {
-    -fx-background-size:contain;
+    -fx-background-image: url(background1.png);
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
 }

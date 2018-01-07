@@ -71,6 +71,7 @@ public class ControlFormController implements Initializable {
         try {
             root = FXMLLoader.load(getClass().getResource("ShowForm.fxml"));
             Scene scene = new Scene(root);
+            
             Stage ShowFormStage = new Stage();
             ShowFormStage.setScene(scene);
             ShowFormStage.show();
