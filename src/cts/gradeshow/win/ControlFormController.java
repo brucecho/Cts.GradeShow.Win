@@ -8,6 +8,7 @@ package cts.gradeshow.win;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -74,6 +75,8 @@ public class ControlFormController implements Initializable {
             
             Stage ShowFormStage = new Stage();
             ShowFormStage.setScene(scene);
+            //ShowFormStage.setFullScreen(true);
+            
             ShowFormStage.show();
         } catch (IOException ex) {
             Logger.getLogger(ControlFormController.class.getName()).log(Level.SEVERE, null, ex);
