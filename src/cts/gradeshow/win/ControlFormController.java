@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  * @author bruce
  */
 public class ControlFormController implements Initializable {
-
+    
     @FXML
     private TextField txtRotateDuration;
     @FXML
@@ -50,7 +50,7 @@ public class ControlFormController implements Initializable {
     private Button btnCleanWindow;
     @FXML
     private TextArea taMessage;
-
+    
     private VBox objShowForm;//分數顯示視窗的根物件
     private ShowFormController objShowFormController;
     //控制視窗顯示在第二螢幕的參數
@@ -58,13 +58,19 @@ public class ControlFormController implements Initializable {
     private List<Screen> listScreen;
     private Stage ShowFormStage;
 
-    public void setShowFormController(ShowFormController objShowFormControllerIN) {
-        this.objShowFormController = objShowFormControllerIN;
-    }
+//    public void setShowFormController(ShowFormController objShowFormControllerIN) {
+//        this.objShowFormController = objShowFormControllerIN;
+//    }
     //訊息視窗
     Alert alertMessage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txtRotateDuration.setText("0.9");
+        txtRotateRate.setText("20");
+        txtRotateDiff.setText("9");
+        txtRotateMulti.setText("0.7");
+        
         btnPrepareWindow.setDisable(false);
         btnResetWindow.setDisable(true);
         btnShowGrade.setDisable(true);
@@ -89,11 +95,9 @@ public class ControlFormController implements Initializable {
                 return;
             }
             Rectangle2D secondScreenBound = listScreen.get(1).getVisualBounds();
-            
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("ShowForm.fxml"));
-
+            
             objShowForm = (VBox) loader.load();
             objShowFormController = loader.getController();
             Scene scene = new Scene(objShowForm);
@@ -107,17 +111,17 @@ public class ControlFormController implements Initializable {
             //傳遞必要參數
             objShowFormController.setSecondScreenBound(secondScreenBound);
             objShowFormController.SetFormSize();
-           
+            objShowFormController.setControlFormController(this);
             objShowFormController.SetFormStatus("A");
             //顯示視窗
             ShowFormStage.show();
-
+            
             btnPrepareWindow.setDisable(true);
             btnResetWindow.setDisable(false);
             btnShowGrade.setDisable(false);
             btnShowMoney.setDisable(true);
             btnCleanWindow.setDisable(true);
-
+            
         } catch (Exception error) {
             ShowMessage(error.getMessage());
         }
@@ -133,7 +137,7 @@ public class ControlFormController implements Initializable {
         try {
             if (ShowFormStage != null && ShowFormStage.isShowing()) {
                 ShowFormStage.close();
-
+                
                 btnPrepareWindow.setDisable(false);
                 btnResetWindow.setDisable(true);
                 btnShowGrade.setDisable(true);
@@ -152,9 +156,9 @@ public class ControlFormController implements Initializable {
      */
     @FXML
     private void btnShowGradeClick(ActionEvent event) {
-
+        
         try {
-           //抓取畫面輸入的參數
+            //抓取畫面輸入的參數
             String strRotateDuration = txtRotateDuration.getText();
             String strRotateRate = txtRotateRate.getText();
             String strRotateDiff = txtRotateDiff.getText();
@@ -176,7 +180,7 @@ public class ControlFormController implements Initializable {
                 ShowMessage("承數請輸入數字！");
                 return;
             }
-             objShowFormController.setDbRotateDuration(Double.parseDouble(strRotateDuration));
+            objShowFormController.setDbRotateDuration(Double.parseDouble(strRotateDuration));
             objShowFormController.setDbRotateRate(Double.parseDouble(strRotateRate));
             objShowFormController.setDbRotateDiff(Double.parseDouble(strRotateDiff));
             objShowFormController.setDbRotateMulti(Double.parseDouble(strRotateMulti));
@@ -189,13 +193,13 @@ public class ControlFormController implements Initializable {
             }
             objShowFormController.setFraction(Integer.parseInt(strFraction));
             objShowFormController.ShowGrade();
-
+            
             btnPrepareWindow.setDisable(true);
-            btnResetWindow.setDisable(false);
+            btnResetWindow.setDisable(true);
             btnShowGrade.setDisable(true);
-            btnShowMoney.setDisable(false);
+            btnShowMoney.setDisable(true);
             btnCleanWindow.setDisable(true);
-
+            
         } catch (Exception error) {
             ShowMessage(error.getMessage());
         }
@@ -210,7 +214,7 @@ public class ControlFormController implements Initializable {
     private void btnShowMoneyClick(ActionEvent event) {
         try {
             objShowFormController.ShowMoney();
-
+            
             btnPrepareWindow.setDisable(true);
             btnResetWindow.setDisable(false);
             btnShowGrade.setDisable(true);
@@ -230,7 +234,7 @@ public class ControlFormController implements Initializable {
     private void btnCleanWindowClick(ActionEvent event) {
         try {
             objShowFormController.ClearForm();
-
+            
             btnPrepareWindow.setDisable(true);
             btnResetWindow.setDisable(false);
             btnShowGrade.setDisable(false);
@@ -240,12 +244,21 @@ public class ControlFormController implements Initializable {
             ShowMessage(error.getMessage());
         }
     }
-
+    
     private void ShowMessage(String strMessage) {
         alertMessage.setTitle("訊息");
         alertMessage.setContentText(strMessage);
         alertMessage.showAndWait();
-//        this.taMessage.setText(strMessage);
     }
-
+    
+    public void SetFormStatus(String strStatusType) {
+        if (strStatusType.equals("A")) {
+            //分數顯示完畢
+            btnPrepareWindow.setDisable(true);
+            btnResetWindow.setDisable(false);
+            btnShowGrade.setDisable(true);
+            btnShowMoney.setDisable(false);
+            btnCleanWindow.setDisable(true);
+        }
+    }
 }

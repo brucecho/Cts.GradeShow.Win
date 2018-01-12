@@ -63,6 +63,7 @@ public class ShowFormController implements Initializable {
     public void setDbRotateDuration(double dbRotateDuration) {
         this.dbRotateDuration = dbRotateDuration;
     }
+    //旋轉速度
     private double dbRotateRate;
 
     public void setDbRotateRate(double dbRotateRate) {
@@ -70,13 +71,13 @@ public class ShowFormController implements Initializable {
     }
     //實際旋轉速度
     private double dbRealRotateRate;
-    //
+    //差多少分數後開始變慢
     private double dbRotateDiff;
 
     public void setDbRotateDiff(double dbRotateDiff) {
         this.dbRotateDiff = dbRotateDiff;
     }
-    //
+    //速度差異乘數
     private double dbRotateMulti;
 
     public void setDbRotateMulti(double dbRotateMulti) {
@@ -84,9 +85,32 @@ public class ShowFormController implements Initializable {
     }
     //實際分數
     private int intFraction;
+    private int intFractionA;//實際分數百位數
+    private int intFractionB;//實際分數十位數
+    private int intFractionC;//實際分數個位數
+    //控制視窗Controller
+    private ControlFormController objControlFormController;
+
+    public void setControlFormController(ControlFormController objControlFormController) {
+        this.objControlFormController = objControlFormController;
+    }
 
     public void setFraction(int intFraction) {
         this.intFraction = intFraction;
+        String strFraction = Integer.toString(intFraction);
+        if (strFraction.trim().length() == 1) {
+            intFractionA = 0;
+            intFractionB = 0;
+            intFractionC = Integer.parseInt(strFraction.trim());
+        } else if (strFraction.trim().length() == 2) {
+            intFractionA = 0;
+            intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
+            intFractionC = Integer.parseInt(strFraction.trim().substring(1));
+        } else if (strFraction.trim().length() == 3) {
+            intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
+            intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
+            intFractionC = Integer.parseInt(strFraction.trim().substring(2));
+        }
     }
     //視窗大小編排需要的參數
     Rectangle2D secondScreenBound;
@@ -99,27 +123,37 @@ public class ShowFormController implements Initializable {
     Timeline rotationAnimation;
     private double width;
     private double heigh;
-    private Image number0 = new Image("cts/gradeshow/win/picture/0.png", 100, 100, true, true);
-    private Image number1 = new Image("cts/gradeshow/win/picture/1.png", 100, 100, true, true);
-    private Image number2 = new Image("cts/gradeshow/win/picture/2.png", 100, 100, true, true);
-    private Image number3 = new Image("cts/gradeshow/win/picture/3.png", 100, 100, true, true);
-    private Image number4 = new Image("cts/gradeshow/win/picture/4.png", 100, 100, true, true);
-    private Image number5 = new Image("cts/gradeshow/win/picture/5.png", 100, 100, true, true);
-    private Image number6 = new Image("cts/gradeshow/win/picture/6.png", 100, 100, true, true);
-    private Image number7 = new Image("cts/gradeshow/win/picture/7.png", 100, 100, true, true);
-    private Image number8 = new Image("cts/gradeshow/win/picture/8.png", 100, 100, true, true);
-    private Image number9 = new Image("cts/gradeshow/win/picture/9.png", 100, 100, true, true);
+//    private Image number0 = new Image("cts/gradeshow/win/picture/0.png", 100,100, true, true);
+//    private Image number1 = new Image("cts/gradeshow/win/picture/1.png", 100,100, true, true);
+//    private Image number2 = new Image("cts/gradeshow/win/picture/2.png", 100,100, true, true);
+//    private Image number3 = new Image("cts/gradeshow/win/picture/3.png", 100,100, true, true);
+//    private Image number4 = new Image("cts/gradeshow/win/picture/4.png", 100,100, true, true);
+//    private Image number5 = new Image("cts/gradeshow/win/picture/5.png", 100,100, true, true);
+//    private Image number6 = new Image("cts/gradeshow/win/picture/6.png", 100,100, true, true);
+//    private Image number7 = new Image("cts/gradeshow/win/picture/7.png", 100,100, true, true);
+//    private Image number8 = new Image("cts/gradeshow/win/picture/8.png", 100,100, true, true);
+//    private Image number9 = new Image("cts/gradeshow/win/picture/9.png", 100,100, true, true);
+    private Image number0 = new Image(ShowFormController.class.getResourceAsStream("picture/0.png"));
+    private Image number1 = new Image(ShowFormController.class.getResourceAsStream("picture/1.png"));
+    private Image number2 = new Image(ShowFormController.class.getResourceAsStream("picture/2.png"));
+    private Image number3 = new Image(ShowFormController.class.getResourceAsStream("picture/3.png"));
+    private Image number4 = new Image(ShowFormController.class.getResourceAsStream("picture/4.png"));
+    private Image number5 = new Image(ShowFormController.class.getResourceAsStream("picture/5.png"));
+    private Image number6 = new Image(ShowFormController.class.getResourceAsStream("picture/6.png"));
+    private Image number7 = new Image(ShowFormController.class.getResourceAsStream("picture/7.png"));
+    private Image number8 = new Image(ShowFormController.class.getResourceAsStream("picture/8.png"));
+    private Image number9 = new Image(ShowFormController.class.getResourceAsStream("picture/9.png"));
     private int nowNumber;//目前顯示分數
     private int nowNumberA;//目前顯示的百位數
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
     //顯示金額用的圖檔
-    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 250, 200, true, true);
-    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"), 250, 200, true, true);
-    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"), 250, 200, true, true);
-    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"), 250, 200, true, true);
-    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"), 250, 200, true, true);
-    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"), 250, 200, true, true);
+    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
+    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"), 800, 600, true, true);
+    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"), 800, 600, true, true);
+    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"), 800, 600, true, true);
+    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"), 800, 600, true, true);
+    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"), 800, 600, true, true);
 
     /**
      * Initializes the controller class.
@@ -218,9 +252,9 @@ public class ShowFormController implements Initializable {
             rotationTransform.setPivotZ(0);
 
             //將各圖片加上旋轉動作
-            imvNumberA.getTransforms().clear();
-            imvNumberA.setMouseTransparent(true);
-            imvNumberA.getTransforms().add(rotationTransform);
+//            imvNumberA.getTransforms().clear();
+//            imvNumberA.setMouseTransparent(true);
+//            imvNumberA.getTransforms().add(rotationTransform);
             imvNumberB.getTransforms().clear();
             imvNumberB.setMouseTransparent(true);
             imvNumberB.getTransforms().add(rotationTransform);
@@ -233,19 +267,26 @@ public class ShowFormController implements Initializable {
             rotationAnimation.setRate(dbRealRotateRate);
             rotationAnimation.getKeyFrames().add(
                     new KeyFrame(
-                            Duration.seconds(dbRotateDuration), new EventHandler<ActionEvent>() {
+                            Duration.seconds(dbRotateDuration),
+                            new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent t) {
                             String strNowNumber = Integer.toString(nowNumber);
                             if (strNowNumber.trim().length() == 1) {
-                                nowNumberC = Integer.parseInt(strNowNumber.trim());
+                                nowNumberC = Integer.parseInt(strNowNumber.
+                                        trim());
                             } else if (strNowNumber.trim().length() == 2) {
-                                nowNumberB = Integer.parseInt(strNowNumber.trim().substring(0, 1));
-                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(1));
+                                nowNumberB = Integer.parseInt(strNowNumber.
+                                        trim().substring(0, 1));
+                                nowNumberC = Integer.parseInt(strNowNumber.
+                                        trim().substring(1));
                             } else if (strNowNumber.trim().length() == 3) {
-                                nowNumberA = Integer.parseInt(strNowNumber.trim().substring(0, 1));
-                                nowNumberB = Integer.parseInt(strNowNumber.trim().substring(1, 2));
-                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(2));
+                                nowNumberA = Integer.parseInt(strNowNumber.
+                                        trim().substring(0, 1));
+                                nowNumberB = Integer.parseInt(strNowNumber.
+                                        trim().substring(1, 2));
+                                nowNumberC = Integer.parseInt(strNowNumber.
+                                        trim().substring(2));
                             }
                             switch (nowNumberA) {
                                 case 0:
@@ -352,42 +393,52 @@ public class ShowFormController implements Initializable {
                                     break;
                             }
 
-                            if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC == 0) {
+                            if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC
+                                    == 0) {
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(false);
                                 imvNumberC.setVisible(false);
-                            } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0) {
+                            } else if (nowNumberA == 0 && nowNumberB == 0
+                                    && nowNumberC > 0) {
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(false);
                                 imvNumberC.setVisible(true);
-                            } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0) {
+                            } else if (nowNumberA == 0 && nowNumberB > 0
+                                    && nowNumberC > 0) {
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(true);
                                 imvNumberC.setVisible(true);
-                            } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0) {
+                            } else if (nowNumberA > 0 && nowNumberB == 0
+                                    && nowNumberC == 0) {
                                 imvNumberA.setVisible(true);
                                 imvNumberB.setVisible(true);
                                 imvNumberC.setVisible(true);
                             }
 
+                            if ((intFractionB == nowNumberB && intFractionA == 0)) {
+                                imvNumberB.getTransforms().clear();
+                            }
+
                             if (nowNumber == intFraction) {
                                 rotationAnimation.stop();
+                                objControlFormController.SetFormStatus("A");
                             } else {
                                 nowNumber++;
                                 if ((intFraction - nowNumber) < dbRotateDiff) {
                                     if (dbRealRotateRate > 1) {
-                                        dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
-                                    }else{
-                                       dbRealRotateRate = 1; 
+                                        //dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
+                                        dbRealRotateRate = dbRealRotateRate * dbRotateMulti;
+                                    } else {
+                                        dbRealRotateRate = 1;
                                     }
                                     rotationAnimation.setRate(dbRealRotateRate);
                                 }
                             }
                         }
                     }, new KeyValue(
-                            rotationTransform.angleProperty(),
-                            360
-                    )));
+                                    rotationTransform.angleProperty(),
+                                    360
+                            )));
             rotationAnimation.setCycleCount(Animation.INDEFINITE);
             rotationAnimation.setAutoReverse(false);
             rotationAnimation.play();

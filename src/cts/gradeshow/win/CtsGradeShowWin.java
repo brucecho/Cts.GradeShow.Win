@@ -5,35 +5,11 @@
  */
 package cts.gradeshow.win;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
-import javafx.scene.text.Font;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
-import javafx.scene.effect.Reflection;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Shear;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *
