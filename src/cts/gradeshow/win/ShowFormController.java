@@ -148,12 +148,19 @@ public class ShowFormController implements Initializable {
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
     //顯示金額用的圖檔
-    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
-    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"), 800, 600, true, true);
-    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"), 800, 600, true, true);
-    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"), 800, 600, true, true);
-    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"), 800, 600, true, true);
-    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"), 800, 600, true, true);
+//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
+//    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"), 800, 600, true, true);
+//    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"), 800, 600, true, true);
+//    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"), 800, 600, true, true);
+//    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"), 800, 600, true, true);
+//    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"), 800, 600, true, true);
+//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
+    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"));
+    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"));
+    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"));
+    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"));
+    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"));
+    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"));
 
     /**
      * Initializes the controller class.
