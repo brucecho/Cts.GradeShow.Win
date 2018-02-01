@@ -39,8 +39,8 @@
             <Label text="分數" GridPane.columnIndex="2" />
             <Button fx:id="btnPrepareWindow" mnemonicParsing="false" onAction="#btnPrepareWindowClick" text="準備視窗" GridPane.rowIndex="4" />
             <Button fx:id="btnResetWindow" mnemonicParsing="false" onAction="#btnResetWindowClick" text="重設視窗" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="btnShowGrade" mnemonicParsing="false" onAction="#btnShowGradeClick" text="顯示分數" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button fx:id="btnShowMoney" mnemonicParsing="false" onAction="#btnShowMoneyClick" text="顯示金額" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="btnPrepareGrade" mnemonicParsing="false" onAction="#btnPrepareGradeClick" text="準備分數" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button fx:id="btnShowGrade" mnemonicParsing="false" onAction="#btnShowGradeClick" text="顯示分數" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Button fx:id="btnCleanWindow" mnemonicParsing="false" onAction="#btnCleanWindowClick" text="清空畫面" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
          </children>

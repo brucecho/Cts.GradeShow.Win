@@ -5,12 +5,8 @@
  */
 package cts.gradeshow.win;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,6 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -37,6 +35,14 @@ public class ShowFormController implements Initializable {
     //化面物件存取參數
     @FXML
     private HBox hboxNumber;
+    @FXML
+    private MediaView mediaViewHead;
+    @FXML
+    private MediaPlayer mediaPlayerHead;
+    @FXML
+    private MediaView mediaViewGrade;
+    @FXML
+    private MediaPlayer mediaPlayerGrade;
     @FXML
     private StackPane spNumberAS;
     @FXML
@@ -55,8 +61,8 @@ public class ShowFormController implements Initializable {
     private ImageView imvNumberBB;
     @FXML
     private ImageView imvNumberCB;
-    @FXML
-    private ImageView imvMoney;
+//    @FXML
+//    private ImageView imvMoney;
     //旋轉週期
     private double dbRotateDuration;
 
@@ -111,6 +117,13 @@ public class ShowFormController implements Initializable {
             intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
             intFractionC = Integer.parseInt(strFraction.trim().substring(2));
         }
+//        nowNumber = 0;
+//        nowNumberA = 0;
+//        nowNumberB = 0;
+//        nowNumberC = 0;
+//        imvNumberA.setImage(number0);
+//        imvNumberB.setImage(number0);
+//        imvNumberC.setImage(number0);
     }
     //視窗大小編排需要的參數
     Rectangle2D secondScreenBound;
@@ -148,26 +161,27 @@ public class ShowFormController implements Initializable {
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
     //顯示金額用的圖檔
-//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
-//    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"), 800, 600, true, true);
-//    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"), 800, 600, true, true);
-//    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"), 800, 600, true, true);
-//    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"), 800, 600, true, true);
-//    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"), 800, 600, true, true);
-//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"), 800, 600, true, true);
-    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"));
-    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"));
-    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"));
-    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"));
-    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"));
-    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"));
+//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"));
+//    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"));
+//    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"));
+//    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"));
+//    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"));
+//    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"));
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.mediaPlayerHead.setAutoPlay(true);
+        this.mediaPlayerHead.setStartTime(Duration.seconds(0));
+        this.mediaPlayerHead.setStopTime(Duration.seconds(14.5));
+        this.mediaPlayerHead.setCycleCount(MediaPlayer.INDEFINITE);
 
+        this.mediaPlayerGrade.setAutoPlay(true);
+        this.mediaPlayerGrade.setStartTime(Duration.seconds(0));
+        this.mediaPlayerGrade.setStopTime(Duration.seconds(4.5));
+        this.mediaPlayerGrade.setCycleCount(MediaPlayer.INDEFINITE);
     }
 
     public void SetFormSize() throws Exception {
@@ -199,8 +213,8 @@ public class ShowFormController implements Initializable {
             imvNumberC.setFitHeight(setHeigh * 2);
             imvNumberCB.setFitHeight(setHeigh * 2);
 
-            imvMoney.setFitWidth(width);
-            imvMoney.setFitHeight(heigh);
+//            imvMoney.setFitWidth(width);
+//            imvMoney.setFitHeight(heigh);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -215,18 +229,9 @@ public class ShowFormController implements Initializable {
         //各物件的顯示狀態
         if (strStatusType.equals("A")) {
             //顯示分數之前
-            imvNumberA.setVisible(false);
-            imvNumberB.setVisible(false);
-            imvNumberC.setVisible(false);
-            imvNumberAB.setVisible(true);
-            imvNumberBB.setVisible(true);
-            imvNumberCB.setVisible(true);
+            mediaViewHead.setVisible(true);
 
-            imvMoney.setVisible(false);
-        } else if (strStatusType.equals("B")) {
-            //準備開始顯示分數
-        } else if (strStatusType.equals("C")) {
-            //顯示金額
+            mediaViewGrade.setVisible(false);
             imvNumberA.setVisible(false);
             imvNumberB.setVisible(false);
             imvNumberC.setVisible(false);
@@ -234,9 +239,32 @@ public class ShowFormController implements Initializable {
             imvNumberBB.setVisible(false);
             imvNumberCB.setVisible(false);
 
-            imvMoney.setVisible(true);
-        }
+//            imvMoney.setVisible(false);
+        } else if (strStatusType.equals("B")) {
+            //準備開始顯示分數
+            mediaViewHead.setVisible(false);
 
+            mediaViewGrade.setVisible(true);
+            imvNumberA.setVisible(false);
+            imvNumberB.setVisible(false);
+            imvNumberC.setVisible(false);
+            imvNumberAB.setVisible(false);
+            imvNumberBB.setVisible(false);
+            imvNumberCB.setVisible(false);
+        } else if (strStatusType.equals("C")) {
+            //顯示分數
+            mediaViewHead.setVisible(false);
+
+            mediaViewGrade.setVisible(true);
+//            imvNumberA.setVisible(true);
+//            imvNumberB.setVisible(true);
+//            imvNumberC.setVisible(true);
+            imvNumberAB.setVisible(false);
+            imvNumberBB.setVisible(false);
+            imvNumberCB.setVisible(false);
+
+//            imvMoney.setVisible(true);
+        }
     }
 
     /**
@@ -428,9 +456,9 @@ public class ShowFormController implements Initializable {
 
                             if (nowNumber == intFraction) {
                                 rotationAnimation.stop();
-                                objControlFormController.SetFormStatus("A");
+                                objControlFormController.setBtnEnable("D");
                             } else {
-                                nowNumber++;
+                                
                                 if ((intFraction - nowNumber) < dbRotateDiff) {
                                     if (dbRealRotateRate > 1) {
                                         //dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
@@ -440,6 +468,7 @@ public class ShowFormController implements Initializable {
                                     }
                                     rotationAnimation.setRate(dbRealRotateRate);
                                 }
+                                nowNumber++;
                             }
                         }
                     }, new KeyValue(
@@ -461,20 +490,20 @@ public class ShowFormController implements Initializable {
      */
     public void ShowMoney() throws Exception {
         try {
-            SetFormStatus("C");
-            if (intFraction < 60) {
-                imvMoney.setImage(image2000);
-            } else if (60 <= intFraction && intFraction < 70) {
-                imvMoney.setImage(image3000);
-            } else if (70 <= intFraction && intFraction < 80) {
-                imvMoney.setImage(image3500);
-            } else if (80 <= intFraction && intFraction < 90) {
-                imvMoney.setImage(image4000);
-            } else if (90 <= intFraction && intFraction < 95) {
-                imvMoney.setImage(image4500);
-            } else if (95 <= intFraction && intFraction <= 100) {
-                imvMoney.setImage(image5000);
-            }
+//            SetFormStatus("C");
+//            if (intFraction < 60) {
+//                imvMoney.setImage(image2000);
+//            } else if (60 <= intFraction && intFraction < 70) {
+//                imvMoney.setImage(image3000);
+//            } else if (70 <= intFraction && intFraction < 80) {
+//                imvMoney.setImage(image3500);
+//            } else if (80 <= intFraction && intFraction < 90) {
+//                imvMoney.setImage(image4000);
+//            } else if (90 <= intFraction && intFraction < 95) {
+//                imvMoney.setImage(image4500);
+//            } else if (95 <= intFraction && intFraction <= 100) {
+//                imvMoney.setImage(image5000);
+//            }
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -485,12 +514,13 @@ public class ShowFormController implements Initializable {
      *
      * @throws Exception
      */
-    public void ClearForm() throws Exception {
-        try {
-            intFraction = 0;
-            SetFormStatus("A");
-        } catch (Exception error) {
-            throw new Exception(error.getMessage());
-        }
-    }
+//    public void ClearForm() throws Exception {
+//        try {
+//            intFraction = 0;
+//            setFraction(intFraction);
+//            SetFormStatus("B");
+//        } catch (Exception error) {
+//            throw new Exception(error.getMessage());
+//        }
+//    }
 }

@@ -6,6 +6,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.media.MediaPlayer?>
+<?import javafx.scene.media.Media?>
 
 <!--<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cts.gradeshow.win.ShowFormController">-->
 
@@ -13,6 +16,24 @@
     <children>
         <StackPane>
             <children>
+                <MediaView fx:id="mediaViewHead">
+                    <mediaPlayer>
+                        <MediaPlayer fx:id="mediaPlayerHead">
+                            <media>
+                                <Media source="@picture/head.mp4" />
+                            </media>
+                        </MediaPlayer>
+                    </mediaPlayer> 
+                </MediaView>
+                <MediaView fx:id="mediaViewGrade">
+                    <mediaPlayer>
+                        <MediaPlayer fx:id="mediaPlayerGrade">
+                            <media>
+                                <Media source="@picture/CGbg.mp4" />
+                            </media>
+                        </MediaPlayer>
+                    </mediaPlayer> 
+                </MediaView>
                 <HBox fx:id="hboxNumber" StackPane.alignment="CENTER">
                     <children>
                         <StackPane fx:id="spNumberAS" HBox.hgrow="ALWAYS">
@@ -67,9 +88,9 @@
                 </HBox>
             
             
-                <ImageView fx:id="imvMoney" pickOnBounds="true" preserveRatio="true" smooth="false">
+<!--                <ImageView fx:id="imvMoney" pickOnBounds="true" preserveRatio="true" smooth="false">
                     
-                </ImageView>
+                </ImageView>-->
             </children>
         </StackPane>
          
