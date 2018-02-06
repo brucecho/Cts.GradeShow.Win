@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,24 +44,24 @@ public class ShowFormController implements Initializable {
     private MediaView mediaViewGrade;
     @FXML
     private MediaPlayer mediaPlayerGrade;
-    @FXML
-    private StackPane spNumberAS;
-    @FXML
-    private StackPane spNumberBS;
-    @FXML
-    private StackPane spNumberCS;
+//    @FXML
+//    private StackPane spNumberAS;
+//    @FXML
+//    private StackPane spNumberBS;
+//    @FXML
+//    private StackPane spNumberCS;
     @FXML
     private ImageView imvNumberA;
     @FXML
     private ImageView imvNumberB;
     @FXML
     private ImageView imvNumberC;
-    @FXML
-    private ImageView imvNumberAB;
-    @FXML
-    private ImageView imvNumberBB;
-    @FXML
-    private ImageView imvNumberCB;
+//    @FXML
+//    private ImageView imvNumberAB;
+//    @FXML
+//    private ImageView imvNumberBB;
+//    @FXML
+//    private ImageView imvNumberCB;
 //    @FXML
 //    private ImageView imvMoney;
     //旋轉週期
@@ -136,16 +137,8 @@ public class ShowFormController implements Initializable {
     Timeline rotationAnimation;
     private double width;
     private double heigh;
-//    private Image number0 = new Image("cts/gradeshow/win/picture/0.png", 100,100, true, true);
-//    private Image number1 = new Image("cts/gradeshow/win/picture/1.png", 100,100, true, true);
-//    private Image number2 = new Image("cts/gradeshow/win/picture/2.png", 100,100, true, true);
-//    private Image number3 = new Image("cts/gradeshow/win/picture/3.png", 100,100, true, true);
-//    private Image number4 = new Image("cts/gradeshow/win/picture/4.png", 100,100, true, true);
-//    private Image number5 = new Image("cts/gradeshow/win/picture/5.png", 100,100, true, true);
-//    private Image number6 = new Image("cts/gradeshow/win/picture/6.png", 100,100, true, true);
-//    private Image number7 = new Image("cts/gradeshow/win/picture/7.png", 100,100, true, true);
-//    private Image number8 = new Image("cts/gradeshow/win/picture/8.png", 100,100, true, true);
-//    private Image number9 = new Image("cts/gradeshow/win/picture/9.png", 100,100, true, true);
+    private double setWidth;
+    private double setHeigh;
     private Image number0 = new Image(ShowFormController.class.getResourceAsStream("picture/0.png"));
     private Image number1 = new Image(ShowFormController.class.getResourceAsStream("picture/1.png"));
     private Image number2 = new Image(ShowFormController.class.getResourceAsStream("picture/2.png"));
@@ -160,13 +153,6 @@ public class ShowFormController implements Initializable {
     private int nowNumberA;//目前顯示的百位數
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
-    //顯示金額用的圖檔
-//    private Image image2000 = new Image(ShowFormController.class.getResourceAsStream("picture/2000.gif"));
-//    private Image image3000 = new Image(ShowFormController.class.getResourceAsStream("picture/3000.gif"));
-//    private Image image3500 = new Image(ShowFormController.class.getResourceAsStream("picture/3500.gif"));
-//    private Image image4000 = new Image(ShowFormController.class.getResourceAsStream("picture/4000.gif"));
-//    private Image image4500 = new Image(ShowFormController.class.getResourceAsStream("picture/4500.gif"));
-//    private Image image5000 = new Image(ShowFormController.class.getResourceAsStream("picture/5000.gif"));
 
     /**
      * Initializes the controller class.
@@ -182,6 +168,7 @@ public class ShowFormController implements Initializable {
         this.mediaPlayerGrade.setStartTime(Duration.seconds(0));
         this.mediaPlayerGrade.setStopTime(Duration.seconds(4.5));
         this.mediaPlayerGrade.setCycleCount(MediaPlayer.INDEFINITE);
+
     }
 
     public void SetFormSize() throws Exception {
@@ -189,32 +176,14 @@ public class ShowFormController implements Initializable {
             width = this.secondScreenBound.getWidth();
             heigh = this.secondScreenBound.getHeight();
 
-            double setWidth = width / 10;
-            double setHeigh = heigh / 4;
+            hboxNumber.setAlignment(Pos.CENTER);
+            hboxNumber.setPrefSize(width, heigh);
 
-            //各物件的大小
-            spNumberAS.setPrefWidth(setWidth * 2);
-            imvNumberA.setFitWidth(setWidth * 2);
-            imvNumberAB.setFitWidth(setWidth * 2);
-            spNumberBS.setPrefWidth(setWidth * 2);
-            imvNumberB.setFitWidth(setWidth * 2);
-            imvNumberBB.setFitWidth(setWidth * 2);
-            spNumberCS.setPrefWidth(setWidth * 2);
-            imvNumberC.setFitWidth(setWidth * 2);
-            imvNumberCB.setFitWidth(setWidth * 2);
-
-            spNumberAS.setPrefHeight(setHeigh * 2);
+            setWidth = width / 3;
+            setHeigh = heigh / 4;
             imvNumberA.setFitHeight(setHeigh * 2);
-            imvNumberAB.setFitHeight(setHeigh * 2);
-            spNumberBS.setPrefHeight(setHeigh * 2);
             imvNumberB.setFitHeight(setHeigh * 2);
-            imvNumberBB.setFitHeight(setHeigh * 2);
-            spNumberCS.setPrefHeight(setHeigh * 2);
             imvNumberC.setFitHeight(setHeigh * 2);
-            imvNumberCB.setFitHeight(setHeigh * 2);
-
-//            imvMoney.setFitWidth(width);
-//            imvMoney.setFitHeight(heigh);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -235,11 +204,6 @@ public class ShowFormController implements Initializable {
             imvNumberA.setVisible(false);
             imvNumberB.setVisible(false);
             imvNumberC.setVisible(false);
-            imvNumberAB.setVisible(false);
-            imvNumberBB.setVisible(false);
-            imvNumberCB.setVisible(false);
-
-//            imvMoney.setVisible(false);
         } else if (strStatusType.equals("B")) {
             //準備開始顯示分數
             mediaViewHead.setVisible(false);
@@ -248,22 +212,11 @@ public class ShowFormController implements Initializable {
             imvNumberA.setVisible(false);
             imvNumberB.setVisible(false);
             imvNumberC.setVisible(false);
-            imvNumberAB.setVisible(false);
-            imvNumberBB.setVisible(false);
-            imvNumberCB.setVisible(false);
         } else if (strStatusType.equals("C")) {
             //顯示分數
             mediaViewHead.setVisible(false);
 
             mediaViewGrade.setVisible(true);
-//            imvNumberA.setVisible(true);
-//            imvNumberB.setVisible(true);
-//            imvNumberC.setVisible(true);
-            imvNumberAB.setVisible(false);
-            imvNumberBB.setVisible(false);
-            imvNumberCB.setVisible(false);
-
-//            imvMoney.setVisible(true);
         }
     }
 
@@ -283,13 +236,13 @@ public class ShowFormController implements Initializable {
             dbRealRotateRate = dbRotateRate;
             rotationTransform = new Rotate(0, 50, 50);
             rotationTransform.setAxis(Rotate.X_AXIS);
-            rotationTransform.setPivotY(heigh / 4);
+            rotationTransform.setPivotY(setHeigh);
             rotationTransform.setPivotZ(0);
 
             //將各圖片加上旋轉動作
-//            imvNumberA.getTransforms().clear();
-//            imvNumberA.setMouseTransparent(true);
-//            imvNumberA.getTransforms().add(rotationTransform);
+            imvNumberA.getTransforms().clear();
+            imvNumberA.setMouseTransparent(true);
+            imvNumberA.getTransforms().add(rotationTransform);
             imvNumberB.getTransforms().clear();
             imvNumberB.setMouseTransparent(true);
             imvNumberB.getTransforms().add(rotationTransform);
@@ -302,26 +255,24 @@ public class ShowFormController implements Initializable {
             rotationAnimation.setRate(dbRealRotateRate);
             rotationAnimation.getKeyFrames().add(
                     new KeyFrame(
-                            Duration.seconds(dbRotateDuration),
-                            new EventHandler<ActionEvent>() {
+                            Duration.seconds(dbRotateDuration), new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent t) {
                             String strNowNumber = Integer.toString(nowNumber);
+                             if (nowNumber > intFraction) {
+                                 rotationAnimation.stop();
+                                 return;
+                             }
+                             
                             if (strNowNumber.trim().length() == 1) {
-                                nowNumberC = Integer.parseInt(strNowNumber.
-                                        trim());
+                                nowNumberC = Integer.parseInt(strNowNumber.trim());
                             } else if (strNowNumber.trim().length() == 2) {
-                                nowNumberB = Integer.parseInt(strNowNumber.
-                                        trim().substring(0, 1));
-                                nowNumberC = Integer.parseInt(strNowNumber.
-                                        trim().substring(1));
+                                nowNumberB = Integer.parseInt(strNowNumber.trim().substring(0, 1));
+                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(1));
                             } else if (strNowNumber.trim().length() == 3) {
-                                nowNumberA = Integer.parseInt(strNowNumber.
-                                        trim().substring(0, 1));
-                                nowNumberB = Integer.parseInt(strNowNumber.
-                                        trim().substring(1, 2));
-                                nowNumberC = Integer.parseInt(strNowNumber.
-                                        trim().substring(2));
+                                nowNumberA = Integer.parseInt(strNowNumber.trim().substring(0, 1));
+                                nowNumberB = Integer.parseInt(strNowNumber.trim().substring(1, 2));
+                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(2));
                             }
                             switch (nowNumberA) {
                                 case 0:
@@ -428,23 +379,33 @@ public class ShowFormController implements Initializable {
                                     break;
                             }
 
+                            //設定數字的顯示狀況
                             if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC
                                     == 0) {
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(false);
                                 imvNumberC.setVisible(false);
-                            } else if (nowNumberA == 0 && nowNumberB == 0
-                                    && nowNumberC > 0) {
+                            } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0) {
+                                imvNumberA.setFitWidth(1);
+                                imvNumberB.setFitWidth(1);
+                                imvNumberC.setFitWidth(setWidth);
+
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(false);
                                 imvNumberC.setVisible(true);
-                            } else if (nowNumberA == 0 && nowNumberB > 0
-                                    && nowNumberC > 0) {
+                            } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0) {
+                                imvNumberA.setFitWidth(1);
+                                imvNumberB.setFitWidth(setWidth);
+                                imvNumberC.setFitWidth(setWidth);
+
                                 imvNumberA.setVisible(false);
                                 imvNumberB.setVisible(true);
                                 imvNumberC.setVisible(true);
-                            } else if (nowNumberA > 0 && nowNumberB == 0
-                                    && nowNumberC == 0) {
+                            } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0) {
+                                imvNumberA.setFitWidth(setWidth);
+                                imvNumberB.setFitWidth(setWidth);
+                                imvNumberC.setFitWidth(setWidth);
+
                                 imvNumberA.setVisible(true);
                                 imvNumberB.setVisible(true);
                                 imvNumberC.setVisible(true);
@@ -455,10 +416,9 @@ public class ShowFormController implements Initializable {
                             }
 
                             if (nowNumber == intFraction) {
-                                rotationAnimation.stop();
+//                                rotationAnimation.stop();
                                 objControlFormController.setBtnEnable("D");
                             } else {
-                                
                                 if ((intFraction - nowNumber) < dbRotateDiff) {
                                     if (dbRealRotateRate > 1) {
                                         //dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
@@ -468,13 +428,13 @@ public class ShowFormController implements Initializable {
                                     }
                                     rotationAnimation.setRate(dbRealRotateRate);
                                 }
-                                nowNumber++;
                             }
+                            nowNumber++;
                         }
                     }, new KeyValue(
-                                    rotationTransform.angleProperty(),
-                                    360
-                            )));
+                            rotationTransform.angleProperty(),
+                            360
+                    )));
             rotationAnimation.setCycleCount(Animation.INDEFINITE);
             rotationAnimation.setAutoReverse(false);
             rotationAnimation.play();
