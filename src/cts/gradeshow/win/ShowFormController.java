@@ -166,7 +166,7 @@ public class ShowFormController implements Initializable {
 
         this.mediaPlayerGrade.setAutoPlay(true);
         this.mediaPlayerGrade.setStartTime(Duration.seconds(0));
-        this.mediaPlayerGrade.setStopTime(Duration.seconds(4.5));
+        this.mediaPlayerGrade.setStopTime(Duration.seconds(28.5));
         this.mediaPlayerGrade.setCycleCount(MediaPlayer.INDEFINITE);
 
     }
