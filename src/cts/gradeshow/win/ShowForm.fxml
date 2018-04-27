@@ -18,7 +18,7 @@
                     <mediaPlayer>
                         <MediaPlayer fx:id="mediaPlayerHead">
                             <media>
-                                <Media source="@picture/head.mp4" />
+                                <Media source="@picture/head1.mp4" />
                             </media>
                         </MediaPlayer>
                     </mediaPlayer> 
