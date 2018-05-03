@@ -218,11 +218,11 @@ public class ControlFormController implements Initializable {
             //取得畫面所輸入的分數值
             String strFraction = txtGrade.getText();
             //檢查數字
-            if (strFraction.trim().length() == 0 || Integer.parseInt(strFraction) < 0 || Integer.parseInt(strFraction) > 100) {
+            if (strFraction.trim().length() == 0 || strFraction.trim().length() > 5 || Double.parseDouble(strFraction) < 0 || Double.parseDouble(strFraction) > 100) {
                 ShowMessage("請輸入0到100的數字");
                 return;
             }
-            objShowFormController.setFraction(Integer.parseInt(strFraction));
+            objShowFormController.setFraction(strFraction);
             objShowFormController.SetFormStatus("C");
             objShowFormController.ShowGrade();
 
@@ -241,7 +241,7 @@ public class ControlFormController implements Initializable {
     @FXML
     private void btnPrepareGradeClick(ActionEvent event) {
         try {
-            objShowFormController.setFraction(0);
+            objShowFormController.setFraction("0.0");
             objShowFormController.SetFormStatus("B");
             setBtnEnable("C");
         } catch (Exception error) {
@@ -257,7 +257,7 @@ public class ControlFormController implements Initializable {
     @FXML
     private void btnCleanWindowClick(ActionEvent event) {
         try {
-             objShowFormController.setFraction(0);
+             objShowFormController.setFraction("0.0");
             objShowFormController.SetFormStatus("A");
             setBtnEnable("B");
         } catch (Exception error) {

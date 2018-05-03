@@ -56,6 +56,10 @@ public class ShowFormController implements Initializable {
     private ImageView imvNumberB;
     @FXML
     private ImageView imvNumberC;
+    @FXML
+    private ImageView imvNumberD;
+    @FXML
+    private ImageView imvNumberE;
 //    @FXML
 //    private ImageView imvNumberAB;
 //    @FXML
@@ -91,10 +95,11 @@ public class ShowFormController implements Initializable {
         this.dbRotateMulti = dbRotateMulti;
     }
     //實際分數
-    private int intFraction;
+    private Double intFraction;
     private int intFractionA;//實際分數百位數
     private int intFractionB;//實際分數十位數
     private int intFractionC;//實際分數個位數
+    private int intFractionE;//實際分數小數位
     //控制視窗Controller
     private ControlFormController objControlFormController;
 
@@ -102,29 +107,43 @@ public class ShowFormController implements Initializable {
         this.objControlFormController = objControlFormController;
     }
 
-    public void setFraction(int intFraction) {
-        this.intFraction = intFraction;
-        String strFraction = Integer.toString(intFraction);
-        if (strFraction.trim().length() == 1) {
-            intFractionA = 0;
-            intFractionB = 0;
-            intFractionC = Integer.parseInt(strFraction.trim());
-        } else if (strFraction.trim().length() == 2) {
-            intFractionA = 0;
-            intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
-            intFractionC = Integer.parseInt(strFraction.trim().substring(1));
-        } else if (strFraction.trim().length() == 3) {
-            intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
-            intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
-            intFractionC = Integer.parseInt(strFraction.trim().substring(2));
+    public void setFraction(String strFraction) {
+        this.intFraction = Double.parseDouble(strFraction);
+        if (!strFraction.trim().contains(".")) {
+            if (strFraction.trim().length() == 1) {
+                intFractionA = 0;
+                intFractionB = 0;
+                intFractionC = Integer.parseInt(strFraction.trim());
+                intFractionE = 0;
+            } else if (strFraction.trim().length() == 2) {
+                intFractionA = 0;
+                intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
+                intFractionC = Integer.parseInt(strFraction.trim().substring(1));
+                intFractionE = 0;
+            } else if (strFraction.trim().length() == 3) {
+                intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
+                intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
+                intFractionC = Integer.parseInt(strFraction.trim().substring(2));
+                intFractionE = 0;
+            }
+        } else {
+            if (strFraction.trim().length() == 1) {
+                intFractionA = 0;
+                intFractionB = 0;
+                intFractionC = Integer.parseInt(strFraction.trim());
+                intFractionE = 0;
+            } else if (strFraction.trim().length() == 2) {
+                intFractionA = 0;
+                intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
+                intFractionC = Integer.parseInt(strFraction.trim().substring(1));
+                intFractionE = 0;
+            } else if (strFraction.trim().length() == 3) {
+                intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
+                intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
+                intFractionC = Integer.parseInt(strFraction.trim().substring(2));
+                intFractionE = 0;
+            }
         }
-//        nowNumber = 0;
-//        nowNumberA = 0;
-//        nowNumberB = 0;
-//        nowNumberC = 0;
-//        imvNumberA.setImage(number0);
-//        imvNumberB.setImage(number0);
-//        imvNumberC.setImage(number0);
     }
     //視窗大小編排需要的參數
     Rectangle2D secondScreenBound;
@@ -259,11 +278,11 @@ public class ShowFormController implements Initializable {
                         @Override
                         public void handle(ActionEvent t) {
                             String strNowNumber = Integer.toString(nowNumber);
-                             if (nowNumber > intFraction) {
-                                 rotationAnimation.stop();
-                                 return;
-                             }
-                             
+                            if (nowNumber > intFraction) {
+                                rotationAnimation.stop();
+                                return;
+                            }
+
                             if (strNowNumber.trim().length() == 1) {
                                 nowNumberC = Integer.parseInt(strNowNumber.trim());
                             } else if (strNowNumber.trim().length() == 2) {
