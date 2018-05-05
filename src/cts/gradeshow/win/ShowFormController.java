@@ -44,12 +44,6 @@ public class ShowFormController implements Initializable {
     private MediaView mediaViewGrade;
     @FXML
     private MediaPlayer mediaPlayerGrade;
-//    @FXML
-//    private StackPane spNumberAS;
-//    @FXML
-//    private StackPane spNumberBS;
-//    @FXML
-//    private StackPane spNumberCS;
     @FXML
     private ImageView imvNumberA;
     @FXML
@@ -60,14 +54,6 @@ public class ShowFormController implements Initializable {
     private ImageView imvNumberD;
     @FXML
     private ImageView imvNumberE;
-//    @FXML
-//    private ImageView imvNumberAB;
-//    @FXML
-//    private ImageView imvNumberBB;
-//    @FXML
-//    private ImageView imvNumberCB;
-//    @FXML
-//    private ImageView imvMoney;
     //旋轉週期
     private double dbRotateDuration;
 
@@ -95,7 +81,7 @@ public class ShowFormController implements Initializable {
         this.dbRotateMulti = dbRotateMulti;
     }
     //實際分數
-    private Double intFraction;
+    private double dbFraction;
     private int intFractionA;//實際分數百位數
     private int intFractionB;//實際分數十位數
     private int intFractionC;//實際分數個位數
@@ -108,41 +94,22 @@ public class ShowFormController implements Initializable {
     }
 
     public void setFraction(String strFraction) {
-        this.intFraction = Double.parseDouble(strFraction);
-        if (!strFraction.trim().contains(".")) {
-            if (strFraction.trim().length() == 1) {
-                intFractionA = 0;
-                intFractionB = 0;
-                intFractionC = Integer.parseInt(strFraction.trim());
-                intFractionE = 0;
-            } else if (strFraction.trim().length() == 2) {
-                intFractionA = 0;
-                intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
-                intFractionC = Integer.parseInt(strFraction.trim().substring(1));
-                intFractionE = 0;
-            } else if (strFraction.trim().length() == 3) {
-                intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
-                intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
-                intFractionC = Integer.parseInt(strFraction.trim().substring(2));
-                intFractionE = 0;
-            }
-        } else {
-            if (strFraction.trim().length() == 1) {
-                intFractionA = 0;
-                intFractionB = 0;
-                intFractionC = Integer.parseInt(strFraction.trim());
-                intFractionE = 0;
-            } else if (strFraction.trim().length() == 2) {
-                intFractionA = 0;
-                intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
-                intFractionC = Integer.parseInt(strFraction.trim().substring(1));
-                intFractionE = 0;
-            } else if (strFraction.trim().length() == 3) {
-                intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
-                intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
-                intFractionC = Integer.parseInt(strFraction.trim().substring(2));
-                intFractionE = 0;
-            }
+        this.dbFraction = Double.parseDouble(strFraction);
+        if (strFraction.trim().length() == 3) {
+            intFractionA = 0;
+            intFractionB = 0;
+            intFractionC = Integer.parseInt(strFraction.trim().substring(0, 1));
+            intFractionE = Integer.parseInt(strFraction.trim().substring(2));
+        } else if (strFraction.trim().length() == 4) {
+            intFractionA = 0;
+            intFractionB = Integer.parseInt(strFraction.trim().substring(0, 1));
+            intFractionC = Integer.parseInt(strFraction.trim().substring(1, 2));
+            intFractionE = Integer.parseInt(strFraction.trim().substring(3));
+        } else if (strFraction.trim().length() == 5) {
+            intFractionA = Integer.parseInt(strFraction.trim().substring(0, 1));
+            intFractionB = Integer.parseInt(strFraction.trim().substring(1, 2));
+            intFractionC = Integer.parseInt(strFraction.trim().substring(2, 3));
+            intFractionE = Integer.parseInt(strFraction.trim().substring(4));
         }
     }
     //視窗大小編排需要的參數
@@ -168,10 +135,12 @@ public class ShowFormController implements Initializable {
     private Image number7 = new Image(ShowFormController.class.getResourceAsStream("picture/7.png"));
     private Image number8 = new Image(ShowFormController.class.getResourceAsStream("picture/8.png"));
     private Image number9 = new Image(ShowFormController.class.getResourceAsStream("picture/9.png"));
-    private int nowNumber;//目前顯示分數
+    private Image dot = new Image(ShowFormController.class.getResourceAsStream("picture/dot.png"));
+    private double nowNumber;//目前顯示分數
     private int nowNumberA;//目前顯示的百位數
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
+    private int nowNumberE;//目前顯示的小數位
 
     /**
      * Initializes the controller class.
@@ -203,6 +172,8 @@ public class ShowFormController implements Initializable {
             imvNumberA.setFitHeight(setHeigh * 2);
             imvNumberB.setFitHeight(setHeigh * 2);
             imvNumberC.setFitHeight(setHeigh * 2);
+            imvNumberD.setFitHeight(setHeigh * 2);
+            imvNumberE.setFitHeight(setHeigh * 2);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
         }
@@ -223,6 +194,8 @@ public class ShowFormController implements Initializable {
             imvNumberA.setVisible(false);
             imvNumberB.setVisible(false);
             imvNumberC.setVisible(false);
+            imvNumberD.setVisible(false);
+            imvNumberE.setVisible(false);
         } else if (strStatusType.equals("B")) {
             //準備開始顯示分數
             mediaViewHead.setVisible(false);
@@ -231,6 +204,8 @@ public class ShowFormController implements Initializable {
             imvNumberA.setVisible(false);
             imvNumberB.setVisible(false);
             imvNumberC.setVisible(false);
+            imvNumberD.setVisible(false);
+            imvNumberE.setVisible(false);
         } else if (strStatusType.equals("C")) {
             //顯示分數
             mediaViewHead.setVisible(false);
@@ -246,10 +221,11 @@ public class ShowFormController implements Initializable {
      */
     public void ShowGrade() throws Exception {
         try {
-            nowNumber = 0;
+            nowNumber = 0.0;
             nowNumberA = 0;//目前顯示的百位數
             nowNumberB = 0;//目前顯示的十位數
             nowNumberC = 0;//目前顯示的個位數
+            nowNumberE = 0;//目前顯示的小數位
 
             //設定旋轉動作參數
             dbRealRotateRate = dbRotateRate;
@@ -268,6 +244,12 @@ public class ShowFormController implements Initializable {
             imvNumberC.getTransforms().clear();
             imvNumberC.setMouseTransparent(true);
             imvNumberC.getTransforms().add(rotationTransform);
+            imvNumberE.getTransforms().clear();
+            imvNumberE.setMouseTransparent(true);
+            imvNumberE.getTransforms().add(rotationTransform);
+            
+            
+            imvNumberD.setImage(dot);
 
             //設定動作時間序
             rotationAnimation = new Timeline();
@@ -277,8 +259,8 @@ public class ShowFormController implements Initializable {
                             Duration.seconds(dbRotateDuration), new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent t) {
-                            String strNowNumber = Integer.toString(nowNumber);
-                            if (nowNumber > intFraction) {
+                            String strNowNumber = Double.toString(nowNumber);
+                            if (nowNumber > dbFraction) {
                                 rotationAnimation.stop();
                                 return;
                             }
@@ -434,11 +416,11 @@ public class ShowFormController implements Initializable {
                                 imvNumberB.getTransforms().clear();
                             }
 
-                            if (nowNumber == intFraction) {
+                            if (nowNumber == dbFraction) {
 //                                rotationAnimation.stop();
                                 objControlFormController.setBtnEnable("D");
                             } else {
-                                if ((intFraction - nowNumber) < dbRotateDiff) {
+                                if ((dbFraction - nowNumber) < dbRotateDiff) {
                                     if (dbRealRotateRate > 1) {
                                         //dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
                                         dbRealRotateRate = dbRealRotateRate * dbRotateMulti;

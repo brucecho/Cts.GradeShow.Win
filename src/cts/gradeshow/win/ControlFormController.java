@@ -69,7 +69,7 @@ public class ControlFormController implements Initializable {
             case "A"://功能一開始
                 btnPrepareWindow.setDisable(false);
                 btnResetWindow.setDisable(true);
-                
+
                 btnPrepareGrade.setDisable(true);
                 btnShowGrade.setDisable(true);
                 btnCleanWindow.setDisable(true);
@@ -77,7 +77,7 @@ public class ControlFormController implements Initializable {
             case "B"://畫面準備好，顯示片頭中
                 btnPrepareWindow.setDisable(true);
                 btnResetWindow.setDisable(false);
-                
+
                 btnPrepareGrade.setDisable(false);
                 btnShowGrade.setDisable(true);
                 btnCleanWindow.setDisable(true);
@@ -85,7 +85,7 @@ public class ControlFormController implements Initializable {
             case "C"://準備顯示分數
                 btnPrepareWindow.setDisable(true);
                 btnResetWindow.setDisable(false);
-                
+
                 btnPrepareGrade.setDisable(true);
                 btnShowGrade.setDisable(false);
                 btnCleanWindow.setDisable(true);
@@ -93,7 +93,7 @@ public class ControlFormController implements Initializable {
             case "D"://分數顯示完畢
                 btnPrepareWindow.setDisable(true);
                 btnResetWindow.setDisable(false);
-                
+
                 btnPrepareGrade.setDisable(true);
                 btnShowGrade.setDisable(true);
                 btnCleanWindow.setDisable(false);
@@ -101,7 +101,7 @@ public class ControlFormController implements Initializable {
             default:
                 btnPrepareWindow.setDisable(true);
                 btnResetWindow.setDisable(true);
-                
+
                 btnShowGrade.setDisable(true);
                 btnPrepareGrade.setDisable(true);
                 btnCleanWindow.setDisable(true);
@@ -218,8 +218,14 @@ public class ControlFormController implements Initializable {
             //取得畫面所輸入的分數值
             String strFraction = txtGrade.getText();
             //檢查數字
-            if (strFraction.trim().length() == 0 || strFraction.trim().length() > 5 || Double.parseDouble(strFraction) < 0 || Double.parseDouble(strFraction) > 100) {
-                ShowMessage("請輸入0到100的數字");
+            if (strFraction.trim().length() == 0 
+                    || strFraction.trim().length() < 3
+                    || strFraction.trim().length() > 5
+                    || Double.parseDouble(strFraction) < 0
+                    || Double.parseDouble(strFraction) > 100
+                    || !strFraction.trim().contains(".")
+                    || strFraction.substring(strFraction.indexOf(".")).length() != 2) {
+                ShowMessage("請輸入0到100的數字，而且必須輸入1位小數位");
                 return;
             }
             objShowFormController.setFraction(strFraction);
@@ -257,7 +263,7 @@ public class ControlFormController implements Initializable {
     @FXML
     private void btnCleanWindowClick(ActionEvent event) {
         try {
-             objShowFormController.setFraction("0.0");
+            objShowFormController.setFraction("0.0");
             objShowFormController.SetFormStatus("A");
             setBtnEnable("B");
         } catch (Exception error) {
