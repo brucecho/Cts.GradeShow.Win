@@ -6,6 +6,7 @@
 package cts.gradeshow.win;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -81,7 +82,7 @@ public class ShowFormController implements Initializable {
         this.dbRotateMulti = dbRotateMulti;
     }
     //實際分數
-    private double dbFraction;
+    private float dbFraction;
     private int intFractionA;//實際分數百位數
     private int intFractionB;//實際分數十位數
     private int intFractionC;//實際分數個位數
@@ -94,7 +95,7 @@ public class ShowFormController implements Initializable {
     }
 
     public void setFraction(String strFraction) {
-        this.dbFraction = Double.parseDouble(strFraction);
+        this.dbFraction = Float.parseFloat(strFraction.trim());
         if (strFraction.trim().length() == 3) {
             intFractionA = 0;
             intFractionB = 0;
@@ -111,6 +112,11 @@ public class ShowFormController implements Initializable {
             intFractionC = Integer.parseInt(strFraction.trim().substring(2, 3));
             intFractionE = Integer.parseInt(strFraction.trim().substring(4));
         }
+        System.out.println("dbFraction = " + dbFraction);
+        System.out.println("intFractionA = " + intFractionA);
+        System.out.println("intFractionB = " + intFractionB);
+        System.out.println("intFractionC = " + intFractionC);
+        System.out.println("intFractionE = " + intFractionE);
     }
     //視窗大小編排需要的參數
     Rectangle2D secondScreenBound;
@@ -136,7 +142,7 @@ public class ShowFormController implements Initializable {
     private Image number8 = new Image(ShowFormController.class.getResourceAsStream("picture/8.png"));
     private Image number9 = new Image(ShowFormController.class.getResourceAsStream("picture/9.png"));
     private Image dot = new Image(ShowFormController.class.getResourceAsStream("picture/dot.png"));
-    private double nowNumber;//目前顯示分數
+    private float nowNumber;//目前顯示分數
     private int nowNumberA;//目前顯示的百位數
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
@@ -221,7 +227,7 @@ public class ShowFormController implements Initializable {
      */
     public void ShowGrade() throws Exception {
         try {
-            nowNumber = 0.0;
+            nowNumber = 0.0F;
             nowNumberA = 0;//目前顯示的百位數
             nowNumberB = 0;//目前顯示的十位數
             nowNumberC = 0;//目前顯示的個位數
@@ -247,8 +253,7 @@ public class ShowFormController implements Initializable {
             imvNumberE.getTransforms().clear();
             imvNumberE.setMouseTransparent(true);
             imvNumberE.getTransforms().add(rotationTransform);
-            
-            
+
             imvNumberD.setImage(dot);
 
             //設定動作時間序
@@ -259,22 +264,32 @@ public class ShowFormController implements Initializable {
                             Duration.seconds(dbRotateDuration), new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent t) {
-                            String strNowNumber = Double.toString(nowNumber);
+                            DecimalFormat df = new DecimalFormat("#.#");
+                            //String strNowNumber = Double.toString(nowNumber);
+                            String strNowNumber = df.format(nowNumber);
                             if (nowNumber > dbFraction) {
                                 rotationAnimation.stop();
                                 return;
                             }
-
-                            if (strNowNumber.trim().length() == 1) {
-                                nowNumberC = Integer.parseInt(strNowNumber.trim());
-                            } else if (strNowNumber.trim().length() == 2) {
+                            System.out.println("nowNumber = " + nowNumber);
+                            if (strNowNumber.trim().length() == 3) {
+                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(0, 1));
+                                nowNumberE = Integer.parseInt(strNowNumber.trim().substring(2));
+                            } else if (strNowNumber.trim().length() == 4) {
                                 nowNumberB = Integer.parseInt(strNowNumber.trim().substring(0, 1));
-                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(1));
-                            } else if (strNowNumber.trim().length() == 3) {
+                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(1, 2));
+                                nowNumberE = Integer.parseInt(strNowNumber.trim().substring(3));
+                            } else if (strNowNumber.trim().length() == 5) {
                                 nowNumberA = Integer.parseInt(strNowNumber.trim().substring(0, 1));
                                 nowNumberB = Integer.parseInt(strNowNumber.trim().substring(1, 2));
-                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(2));
+                                nowNumberC = Integer.parseInt(strNowNumber.trim().substring(2, 3));
+                                nowNumberE = Integer.parseInt(strNowNumber.trim().substring(4));
                             }
+                            System.out.println("nowNumberA = " + nowNumberA);
+                            System.out.println("nowNumberB = " + nowNumberB);
+                            System.out.println("nowNumberC = " + nowNumberC);
+                            System.out.println("nowNumberE = " + nowNumberE);
+                            System.out.println("===============");
                             switch (nowNumberA) {
                                 case 0:
                                     imvNumberA.setImage(number0);
@@ -380,40 +395,132 @@ public class ShowFormController implements Initializable {
                                     break;
                             }
 
-                            //設定數字的顯示狀況
-                            if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC
-                                    == 0) {
-                                imvNumberA.setVisible(false);
-                                imvNumberB.setVisible(false);
-                                imvNumberC.setVisible(false);
-                            } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0) {
-                                imvNumberA.setFitWidth(1);
-                                imvNumberB.setFitWidth(1);
-                                imvNumberC.setFitWidth(setWidth);
+                            switch (nowNumberE) {
+                                case 0:
+                                    imvNumberE.setImage(number0);
+                                    break;
+                                case 1:
+                                    imvNumberE.setImage(number1);
+                                    break;
+                                case 2:
+                                    imvNumberE.setImage(number2);
+                                    break;
+                                case 3:
+                                    imvNumberE.setImage(number3);
+                                    break;
+                                case 4:
+                                    imvNumberE.setImage(number4);
+                                    break;
+                                case 5:
+                                    imvNumberE.setImage(number5);
+                                    break;
+                                case 6:
+                                    imvNumberE.setImage(number6);
+                                    break;
+                                case 7:
+                                    imvNumberE.setImage(number7);
+                                    break;
+                                case 8:
+                                    imvNumberE.setImage(number8);
+                                    break;
+                                case 9:
+                                    imvNumberE.setImage(number9);
+                                    break;
+                                default:
+                                    break;
+                            }
 
-                                imvNumberA.setVisible(false);
-                                imvNumberB.setVisible(false);
-                                imvNumberC.setVisible(true);
-                            } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0) {
-                                imvNumberA.setFitWidth(1);
-                                imvNumberB.setFitWidth(setWidth);
-                                imvNumberC.setFitWidth(setWidth);
+                            if (intFractionE == 0) {//
+                                //設定數字的顯示狀況
+                                imvNumberD.setVisible(false);
+                                imvNumberE.setVisible(false);
+                                if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC == 0) {
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(false);
+                                    imvNumberC.setVisible(false);
+                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(1);
+                                    imvNumberC.setFitWidth(setWidth);
 
-                                imvNumberA.setVisible(false);
-                                imvNumberB.setVisible(true);
-                                imvNumberC.setVisible(true);
-                            } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0) {
-                                imvNumberA.setFitWidth(setWidth);
-                                imvNumberB.setFitWidth(setWidth);
-                                imvNumberC.setFitWidth(setWidth);
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(false);
+                                    imvNumberC.setVisible(true);
+                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(setWidth);
+                                    imvNumberC.setFitWidth(setWidth);
 
-                                imvNumberA.setVisible(true);
-                                imvNumberB.setVisible(true);
-                                imvNumberC.setVisible(true);
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(true);
+                                    imvNumberC.setVisible(true);
+                                } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0) {
+                                    imvNumberA.setFitWidth(setWidth);
+                                    imvNumberB.setFitWidth(setWidth);
+                                    imvNumberC.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(true);
+                                    imvNumberB.setVisible(true);
+                                    imvNumberC.setVisible(true);
+                                }
+                            } else {
+                                if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC == 0 && nowNumberE > 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(1);
+                                    imvNumberC.setFitWidth(1);
+                                    imvNumberD.setFitWidth(1);
+                                    imvNumberE.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(false);
+                                    imvNumberC.setVisible(false);
+                                    imvNumberD.setVisible(false);
+                                    imvNumberE.setVisible(true);
+                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0 && nowNumberE > 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(1);
+                                    imvNumberC.setFitWidth(setWidth);
+                                    imvNumberD.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(false);
+                                    imvNumberC.setVisible(true);
+                                    imvNumberD.setVisible(true);
+                                    imvNumberE.setVisible(true);
+                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0 && nowNumberE > 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(setWidth);
+                                    imvNumberC.setFitWidth(setWidth);
+                                    imvNumberD.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(true);
+                                    imvNumberC.setVisible(true);
+                                    imvNumberD.setVisible(true);
+                                    imvNumberE.setVisible(true);
+                                } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0 && nowNumberE > 0) {
+                                    imvNumberA.setFitWidth(setWidth);
+                                    imvNumberB.setFitWidth(setWidth);
+                                    imvNumberC.setFitWidth(setWidth);
+                                    imvNumberD.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(true);
+                                    imvNumberB.setVisible(true);
+                                    imvNumberC.setVisible(true);
+                                    imvNumberD.setVisible(true);
+                                    imvNumberE.setVisible(true);
+                                }
                             }
 
                             if ((intFractionB == nowNumberB && intFractionA == 0)) {
                                 imvNumberB.getTransforms().clear();
+                            }
+                            if ((intFractionB == nowNumberB && intFractionC == nowNumberC && intFractionA == 0)) {
+                                imvNumberB.getTransforms().clear();
+                                imvNumberC.getTransforms().clear();
                             }
 
                             if (nowNumber == dbFraction) {
@@ -430,7 +537,7 @@ public class ShowFormController implements Initializable {
                                     rotationAnimation.setRate(dbRealRotateRate);
                                 }
                             }
-                            nowNumber++;
+                            nowNumber = nowNumber + 0.1F;
                         }
                     }, new KeyValue(
                             rotationTransform.angleProperty(),
