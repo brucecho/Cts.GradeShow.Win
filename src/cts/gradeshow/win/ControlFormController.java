@@ -218,11 +218,11 @@ public class ControlFormController implements Initializable {
             //取得畫面所輸入的分數值
             String strFraction = txtGrade.getText();
             //檢查數字
-            if (strFraction.trim().length() == 0 
+            if (strFraction.trim().length() == 0
                     || strFraction.trim().length() < 3
                     || strFraction.trim().length() > 5
                     || Double.parseDouble(strFraction) < 0
-                    || Double.parseDouble(strFraction) > 100
+                    || Double.parseDouble(strFraction) > 200
                     || !strFraction.trim().contains(".")
                     || strFraction.substring(strFraction.indexOf(".")).length() != 2) {
                 ShowMessage("請輸入0到100的數字，而且必須輸入1位小數位");

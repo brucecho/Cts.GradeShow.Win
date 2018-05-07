@@ -5,9 +5,11 @@
  */
 package cts.gradeshow.win;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -82,7 +84,7 @@ public class ShowFormController implements Initializable {
         this.dbRotateMulti = dbRotateMulti;
     }
     //實際分數
-    private float dbFraction;
+    private Double dbFraction;
     private int intFractionA;//實際分數百位數
     private int intFractionB;//實際分數十位數
     private int intFractionC;//實際分數個位數
@@ -95,7 +97,7 @@ public class ShowFormController implements Initializable {
     }
 
     public void setFraction(String strFraction) {
-        this.dbFraction = Float.parseFloat(strFraction.trim());
+        this.dbFraction = BigDecimal.valueOf(Double.parseDouble(strFraction)).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
         if (strFraction.trim().length() == 3) {
             intFractionA = 0;
             intFractionB = 0;
@@ -112,11 +114,11 @@ public class ShowFormController implements Initializable {
             intFractionC = Integer.parseInt(strFraction.trim().substring(2, 3));
             intFractionE = Integer.parseInt(strFraction.trim().substring(4));
         }
-        System.out.println("dbFraction = " + dbFraction);
-        System.out.println("intFractionA = " + intFractionA);
-        System.out.println("intFractionB = " + intFractionB);
-        System.out.println("intFractionC = " + intFractionC);
-        System.out.println("intFractionE = " + intFractionE);
+//        System.out.println("dbFraction = " + dbFraction);
+//        System.out.println("intFractionA = " + intFractionA);
+//        System.out.println("intFractionB = " + intFractionB);
+//        System.out.println("intFractionC = " + intFractionC);
+//        System.out.println("intFractionE = " + intFractionE);
     }
     //視窗大小編排需要的參數
     Rectangle2D secondScreenBound;
@@ -142,7 +144,7 @@ public class ShowFormController implements Initializable {
     private Image number8 = new Image(ShowFormController.class.getResourceAsStream("picture/8.png"));
     private Image number9 = new Image(ShowFormController.class.getResourceAsStream("picture/9.png"));
     private Image dot = new Image(ShowFormController.class.getResourceAsStream("picture/dot.png"));
-    private float nowNumber;//目前顯示分數
+    private Double nowNumber;//目前顯示分數
     private int nowNumberA;//目前顯示的百位數
     private int nowNumberB;//目前顯示的十位數
     private int nowNumberC;//目前顯示的個位數
@@ -173,12 +175,13 @@ public class ShowFormController implements Initializable {
             hboxNumber.setAlignment(Pos.CENTER);
             hboxNumber.setPrefSize(width, heigh);
 
-            setWidth = width / 3;
+            setWidth = width / 5;
             setHeigh = heigh / 4;
             imvNumberA.setFitHeight(setHeigh * 2);
             imvNumberB.setFitHeight(setHeigh * 2);
             imvNumberC.setFitHeight(setHeigh * 2);
-            imvNumberD.setFitHeight(setHeigh * 2);
+            imvNumberD.setFitHeight(setHeigh * 0.2);
+            imvNumberD.setFitWidth(setWidth * 0.2);
             imvNumberE.setFitHeight(setHeigh * 2);
         } catch (Exception error) {
             throw new Exception(error.getMessage());
@@ -227,7 +230,11 @@ public class ShowFormController implements Initializable {
      */
     public void ShowGrade() throws Exception {
         try {
-            nowNumber = 0.0F;
+            if (dbFraction > 100) {
+                nowNumber = 90.0;
+            } else {
+                nowNumber = 0.0;
+            }
             nowNumberA = 0;//目前顯示的百位數
             nowNumberB = 0;//目前顯示的十位數
             nowNumberC = 0;//目前顯示的個位數
@@ -266,12 +273,15 @@ public class ShowFormController implements Initializable {
                         public void handle(ActionEvent t) {
                             DecimalFormat df = new DecimalFormat("#.#");
                             //String strNowNumber = Double.toString(nowNumber);
-                            String strNowNumber = df.format(nowNumber);
+//                            String strNowNumber = df.format(nowNumber);
+                            String strNowNumber = String.format("%.1f", nowNumber);
+
                             if (nowNumber > dbFraction) {
                                 rotationAnimation.stop();
                                 return;
                             }
-                            System.out.println("nowNumber = " + nowNumber);
+//                            System.out.println("nowNumber = " + nowNumber);
+//                            System.out.println("strNumber = " + strNowNumber);
                             if (strNowNumber.trim().length() == 3) {
                                 nowNumberC = Integer.parseInt(strNowNumber.trim().substring(0, 1));
                                 nowNumberE = Integer.parseInt(strNowNumber.trim().substring(2));
@@ -285,11 +295,11 @@ public class ShowFormController implements Initializable {
                                 nowNumberC = Integer.parseInt(strNowNumber.trim().substring(2, 3));
                                 nowNumberE = Integer.parseInt(strNowNumber.trim().substring(4));
                             }
-                            System.out.println("nowNumberA = " + nowNumberA);
-                            System.out.println("nowNumberB = " + nowNumberB);
-                            System.out.println("nowNumberC = " + nowNumberC);
-                            System.out.println("nowNumberE = " + nowNumberE);
-                            System.out.println("===============");
+//                            System.out.println("nowNumberA = " + nowNumberA);
+//                            System.out.println("nowNumberB = " + nowNumberB);
+//                            System.out.println("nowNumberC = " + nowNumberC);
+//                            System.out.println("nowNumberE = " + nowNumberE);
+//                            System.out.println("===============");
                             switch (nowNumberA) {
                                 case 0:
                                     imvNumberA.setImage(number0);
@@ -432,55 +442,51 @@ public class ShowFormController implements Initializable {
 
                             if (intFractionE == 0) {//
                                 //設定數字的顯示狀況
-                                imvNumberD.setVisible(false);
-                                imvNumberE.setVisible(false);
                                 if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC == 0) {
                                     imvNumberA.setVisible(false);
                                     imvNumberB.setVisible(false);
                                     imvNumberC.setVisible(false);
-                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0) {
+                                    imvNumberD.setVisible(false);
+                                    imvNumberE.setVisible(false);
+                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC >= 0) {
                                     imvNumberA.setFitWidth(1);
                                     imvNumberB.setFitWidth(1);
                                     imvNumberC.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(1);
 
                                     imvNumberA.setVisible(false);
                                     imvNumberB.setVisible(false);
                                     imvNumberC.setVisible(true);
-                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0) {
+                                    imvNumberD.setVisible(false);
+                                    imvNumberE.setVisible(false);
+                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC >= 0) {
                                     imvNumberA.setFitWidth(1);
                                     imvNumberB.setFitWidth(setWidth);
                                     imvNumberC.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(1);
 
                                     imvNumberA.setVisible(false);
                                     imvNumberB.setVisible(true);
                                     imvNumberC.setVisible(true);
-                                } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0) {
+                                    imvNumberD.setVisible(false);
+                                    imvNumberE.setVisible(false);
+                                } else if (nowNumberA > 0 && nowNumberB >= 0 && nowNumberC >= 0) {
                                     imvNumberA.setFitWidth(setWidth);
                                     imvNumberB.setFitWidth(setWidth);
                                     imvNumberC.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(1);
 
                                     imvNumberA.setVisible(true);
                                     imvNumberB.setVisible(true);
                                     imvNumberC.setVisible(true);
+                                    imvNumberD.setVisible(false);
+                                    imvNumberE.setVisible(false);
                                 }
                             } else {
                                 if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC == 0 && nowNumberE > 0) {
                                     imvNumberA.setFitWidth(1);
                                     imvNumberB.setFitWidth(1);
                                     imvNumberC.setFitWidth(1);
-                                    imvNumberD.setFitWidth(1);
-                                    imvNumberE.setFitWidth(setWidth);
-
-                                    imvNumberA.setVisible(false);
-                                    imvNumberB.setVisible(false);
-                                    imvNumberC.setVisible(false);
-                                    imvNumberD.setVisible(false);
-                                    imvNumberE.setVisible(true);
-                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0 && nowNumberE > 0) {
-                                    imvNumberA.setFitWidth(1);
-                                    imvNumberB.setFitWidth(1);
-                                    imvNumberC.setFitWidth(setWidth);
-                                    imvNumberD.setFitWidth(setWidth);
                                     imvNumberE.setFitWidth(setWidth);
 
                                     imvNumberA.setVisible(false);
@@ -488,11 +494,21 @@ public class ShowFormController implements Initializable {
                                     imvNumberC.setVisible(true);
                                     imvNumberD.setVisible(true);
                                     imvNumberE.setVisible(true);
-                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC > 0 && nowNumberE > 0) {
+                                } else if (nowNumberA == 0 && nowNumberB == 0 && nowNumberC > 0 && nowNumberE >= 0) {
+                                    imvNumberA.setFitWidth(1);
+                                    imvNumberB.setFitWidth(1);
+                                    imvNumberC.setFitWidth(setWidth);
+                                    imvNumberE.setFitWidth(setWidth);
+
+                                    imvNumberA.setVisible(false);
+                                    imvNumberB.setVisible(false);
+                                    imvNumberC.setVisible(true);
+                                    imvNumberD.setVisible(true);
+                                    imvNumberE.setVisible(true);
+                                } else if (nowNumberA == 0 && nowNumberB > 0 && nowNumberC >= 0 && nowNumberE >= 0) {
                                     imvNumberA.setFitWidth(1);
                                     imvNumberB.setFitWidth(setWidth);
                                     imvNumberC.setFitWidth(setWidth);
-                                    imvNumberD.setFitWidth(setWidth);
                                     imvNumberE.setFitWidth(setWidth);
 
                                     imvNumberA.setVisible(false);
@@ -500,11 +516,10 @@ public class ShowFormController implements Initializable {
                                     imvNumberC.setVisible(true);
                                     imvNumberD.setVisible(true);
                                     imvNumberE.setVisible(true);
-                                } else if (nowNumberA > 0 && nowNumberB == 0 && nowNumberC == 0 && nowNumberE > 0) {
+                                } else if (nowNumberA > 0 && nowNumberB >= 0 && nowNumberC >= 0 && nowNumberE >= 0) {
                                     imvNumberA.setFitWidth(setWidth);
                                     imvNumberB.setFitWidth(setWidth);
                                     imvNumberC.setFitWidth(setWidth);
-                                    imvNumberD.setFitWidth(setWidth);
                                     imvNumberE.setFitWidth(setWidth);
 
                                     imvNumberA.setVisible(true);
@@ -514,21 +529,32 @@ public class ShowFormController implements Initializable {
                                     imvNumberE.setVisible(true);
                                 }
                             }
-
-                            if ((intFractionB == nowNumberB && intFractionA == 0)) {
+                            if ((intFractionA == nowNumberA)) {
+                                imvNumberA.getTransforms().clear();
+                            }
+                            if ((intFractionA == nowNumberA && intFractionB == nowNumberB)) {
+                                imvNumberA.getTransforms().clear();
                                 imvNumberB.getTransforms().clear();
                             }
-                            if ((intFractionB == nowNumberB && intFractionC == nowNumberC && intFractionA == 0)) {
+                            if ((intFractionA == nowNumberA || intFractionA == 0) && intFractionB == nowNumberB && intFractionC == nowNumberC) {
+                                imvNumberA.getTransforms().clear();
                                 imvNumberB.getTransforms().clear();
                                 imvNumberC.getTransforms().clear();
                             }
 
-                            if (nowNumber == dbFraction) {
+//                            if (nowNumber == dbFraction) {
+                            if (nowNumberA == intFractionA
+                                    && nowNumberB == intFractionB
+                                    && nowNumberC == intFractionC
+                                    && nowNumberE == intFractionE) {
 //                                rotationAnimation.stop();
                                 objControlFormController.setBtnEnable("D");
                             } else {
-                                if ((dbFraction - nowNumber) < dbRotateDiff) {
-                                    if (dbRealRotateRate > 1) {
+//                                System.out.println("dbFraction - nowNumber = " + (dbFraction - nowNumber));
+//                                System.out.println("dbRotateDiff = " + dbRotateDiff);
+                                if ((intFractionE != 0 && (dbFraction - nowNumber) < dbRotateDiff * 0.1)
+                                        || (intFractionE == 0 && (dbFraction - nowNumber) < dbRotateDiff)) {
+                                    if (dbRealRotateRate > 1.0) {
                                         //dbRealRotateRate = dbRealRotateRate - (5 * dbRotateMulti);
                                         dbRealRotateRate = dbRealRotateRate * dbRotateMulti;
                                     } else {
@@ -536,8 +562,15 @@ public class ShowFormController implements Initializable {
                                     }
                                     rotationAnimation.setRate(dbRealRotateRate);
                                 }
+//                                System.out.println("dbRealRotateRate = " + dbRealRotateRate);
+//                                System.out.println("=======================================");
                             }
-                            nowNumber = nowNumber + 0.1F;
+                            if (intFractionE != 0
+                                    && nowNumber >= dbFraction - 2) {
+                                nowNumber = BigDecimal.valueOf((nowNumber + 0.1)).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            } else {
+                                nowNumber = BigDecimal.valueOf((nowNumber + 1.0)).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            }
                         }
                     }, new KeyValue(
                             rotationTransform.angleProperty(),
